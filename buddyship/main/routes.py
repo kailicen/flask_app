@@ -14,6 +14,19 @@ def home():
         flash('Please set up your buddy and your goal first. ', 'danger')
         return redirect(url_for('users.set_up'))
     else:
+        set_buddy = Buddy.query.filter_by(user_id=current_user.id).first()
+        if set_buddy:
+            if set_buddy.buddy_name != current_user.current_buddy:
+                set_buddy.buddy_name = current_user.current_buddy.lower().title()
+                db.session.commit()
+            else:
+                pass
+        else:
+            add_buddy = Buddy(buddy_name=current_user.current_buddy.lower().title(),
+                              user_id=current_user.id)
+            db.session.add(add_buddy)
+            db.session.commit()
+
         buddy_account = User.query.filter_by(
             first_name=current_user.current_buddy).first()
         if buddy_account == None:
