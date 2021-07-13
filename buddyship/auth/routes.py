@@ -97,7 +97,6 @@ class UserLogoutMenuLink(MenuLink):
 
 
 admin.add_view(UserView(User, db.session))
-admin.add_view(AdminHomeView(Buddy, db.session))
 admin.add_link(AdminLogoutMenuLink(name='Logout', category='', url="/logout"))
 admin.add_link(UserLogoutMenuLink(name='Logout', category='', url="/"))
 

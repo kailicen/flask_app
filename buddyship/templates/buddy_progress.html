@@ -2,7 +2,7 @@
 {% block content %}
 <div class="content-section">
     {% for buddy in user.buddies|reverse %}
-    <legend class="border-bottom mb-4">{{ buddy.buddy_count }} {{ buddy.buddy_name }}'s Progress</legend>
+    <legend class="border-bottom mb-4">{{ buddy.buddy_name }}'s Progress</legend>
     <div class="table-responsive-sm">
         <table class="table table-sm table-bordered">
             <thead>
