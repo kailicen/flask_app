@@ -14,7 +14,9 @@ def home():
         flash('Please set up your buddy and your goal first. ', 'danger')
         return redirect(url_for('users.set_up'))
     else:
-        set_buddy = Buddy.query.filter_by(user_id=current_user.id).first()
+        # Admin set user's buddy or admin add user's buddy
+        set_buddy = Buddy.query.filter_by(
+            user_id=current_user.id, end_date=None).first()
         if set_buddy:
             if set_buddy.buddy_name != current_user.current_buddy:
                 set_buddy.buddy_name = current_user.current_buddy.lower().title()
@@ -30,10 +32,15 @@ def home():
         buddy_account = User.query.filter_by(
             first_name=current_user.current_buddy).first()
         if buddy_account == None:
+            flash('Your buddy hasn\'t have an account yet', 'danger')
             return redirect(url_for('main.stop'))
         else:
             form = HomeForm()
             if buddy_account.current_goal == None:
+                flash('Your buddy hasn\'t set their goal yet', 'danger')
+                return redirect(url_for('main.stop'))
+            elif buddy_account.current_buddy != current_user.first_name:
+                flash('Your buddy hasn\'t updated their buddy yet', 'danger')
                 return redirect(url_for('main.stop'))
             else:
                 if form.validate_on_submit():
