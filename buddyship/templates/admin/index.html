@@ -1,0 +1,42 @@
+{% if not current_user.is_authenticated %}
+<div class="content-section">
+    <h1>You don't have permission to do that (403)</h1>
+    <p>Please check your account and try again</p>
+</div>
+
+{% else %}
+{% if current_user.if_admin == True %}
+{% extends 'admin/master.html' %}
+{% block body %}
+<section class="content-header">
+    <h1>
+        Welcome!
+        <small>This is a management panel for buddy pairs</small>
+    </h1>
+</section>
+
+<section class="content">
+
+    <div class="row">
+        <section class="container">
+            <br>
+            <p>- You can filter, view, and edit users' details. </p>
+            <p>- You can set them to inactive (via the <i>'Active'</i> column) when they no longer participate in this
+                program.
+            </p>
+            <p>- You can sign in as an admin or add the existing user as an admin (via the <i>'If Admin'</i> column).
+            </p>
+        </section>
+    </div>
+</section>
+{% endblock %}
+
+{% else %}
+<div class="content-section">
+    <h1>You don't have permission to do that (403)</h1>
+    <p>Please check your account and try again</p>
+</div>
+
+{% endif %}
+
+{% endif %}

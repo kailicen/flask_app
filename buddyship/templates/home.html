@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+  <div class="subtitle-section">
+    <p><b>Buddyship: </b>{{ user.first_name }} and {{ user.current_buddy }}<br />
+      <b>Your buddy's goal: </b>{{ buddy_account.current_goal }}
+    </p>
+  </div>
+  <form method="POST" action="" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">Record your buddy's progress</legend>
+      <div class="form-group">
+        {{ form.buddy_role.label(class="form-control-label") }}
+        {% if form.buddy_role.errors %}
+        <select class="form-control is-invalid" id="buddy_role" , name="buddy_role">
+          {% for option in form.buddy_role %}
+          {% if loop.first %}
+          <option value="" disabled selected>Choose...</option>
+          {% endif %}
+          {% if loop.index == 3 %}
+          <option value="" disabled>----------------------------</option>
+          {% endif %}
+          {{ option }}
+          {% endfor %}
+        </select>
+        <div class="invalid-feedback">
+          {% for error in form.buddy_role.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %}
+        <select class="form-control" id="buddy_role" , name="buddy_role">
+          {% for option in form.buddy_role %}
+          {% if loop.first %}
+          <option value="" disabled selected>Choose...</option>
+          {% endif %}
+          {% if loop.index == 3 %}
+          <option value="" disabled>----------------------------</option>
+          {% endif %}
+          {{ option }}
+          {% endfor %}
+        </select>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        {{ form.buddy_score.label(class="form-control-label") }}
+        {% if form.buddy_score.errors %}
+        <select class="form-control is-invalid" id="buddy_score" , name="buddy_score">
+          {% for option in form.buddy_score %}
+          {% if loop.first %}
+          <option value="" disabled selected>Choose...</option>
+          {% endif %}
+          {{ option }}
+          {% endfor %}
+        </select>
+        <div class="invalid-feedback">
+          {% for error in form.buddy_score.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %}
+        <select class="form-control" id="buddy_score" , name="buddy_score">
+          {% for option in form.buddy_score %}
+          {% if loop.first %}
+          <option value="" disabled selected>Choose...</option>
+          {% endif %}
+          {{ option }}
+          {% endfor %}
+        </select>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        {{ form.buddy_comment.label(class="form-control-label") }}
+        {% if form.buddy_comment.errors %}
+        {{ form.buddy_comment(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.buddy_comment.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %}
+        {{ form.buddy_comment(class="form-control") }}
+        {% endif %}
+      </div>
+    </fieldset>
+    <div class="form-group">
+      {{ form.submit(class="btn success") }}
+    </div>
+  </form>
+</div>
+{% endblock content %}

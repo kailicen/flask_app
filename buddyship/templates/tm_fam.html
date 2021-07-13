@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section">
+    <div class="subtitle-section">
+        <p>Here are the current buddyships in the TM family with their goals</p>
+    </div>
+</div>
+
+<div class="content-section">
+    <table class="table table-sm table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Buddyships</th>
+                <th scope="col">Goals</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(count) %}
+            <tr>
+                <td scope="row" rowspan="2">{{ i + 1 }}</td>
+                <td>{{ buddyships[i].split(' & ')[0] }}</td>
+                <td>{{ goals[i].split(' & ')[0] }}</td>
+            </tr>
+            <tr>
+                <td>{{ buddyships[i].split(' & ')[1] }}</td>
+                <td>{{ goals[i].split(' & ')[1] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
