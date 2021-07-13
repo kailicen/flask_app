@@ -36,8 +36,6 @@ class AdminHomeView(sqla.ModelView):
 class UserView(AdminHomeView):
     def update_model(self, form, model):
         try:
-            old_buddy = model.current_buddy
-            new_buddy = form.current_buddy.data
             form.populate_obj(model)
             self._on_model_change(form, model, False)
             self.session.commit()
@@ -49,21 +47,26 @@ class UserView(AdminHomeView):
 
             return False
         else:
-            if new_buddy != old_buddy:
-                former_buddy_count = Buddy.query.filter_by(
-                    user_id=model.id).count()
+            if form.current_buddy is None:
+                pass
+            else:
+                old_buddy = model.current_buddy
+                new_buddy = form.current_buddy.data
+                if new_buddy != old_buddy:
+                    former_buddy_count = Buddy.query.filter_by(
+                        user_id=model.id).count()
 
-                last_buddy = Buddy.query.filter_by(
-                    user_id=model.id, buddy_count=former_buddy_count).first()
+                    last_buddy = Buddy.query.filter_by(
+                        user_id=model.id, buddy_count=former_buddy_count).first()
 
-                new_buddy_name = new_buddy.lower().title()
-                new_buddy_count = former_buddy_count + 1
+                    new_buddy_name = new_buddy.lower().title()
+                    new_buddy_count = former_buddy_count + 1
 
-                last_buddy.end_date = func.now()
-                add_buddy = Buddy(buddy_name=new_buddy_name,
-                                  buddy_count=new_buddy_count, user_id=model.id)
-                db.session.add(add_buddy)
-                db.session.commit()
+                    last_buddy.end_date = func.now()
+                    add_buddy = Buddy(buddy_name=new_buddy_name,
+                                      buddy_count=new_buddy_count, user_id=model.id)
+                    db.session.add(add_buddy)
+                    db.session.commit()
             self.after_model_change(form, model, False)
         return True
 
