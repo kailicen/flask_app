@@ -83,19 +83,25 @@ def account():
                 db.session.commit()
 
         else:
-            new_general_goal = form.general_goal.data
-            new_specific_goal = form.specific_goal.data
-            new_goal_count = former_goal_count + 1
-            new_goal_reward = form.reward.data
-            new_end_date = date.today() + relativedelta(months=+6)
+            if form.general_goal.data == current_user.current_general_goal and form.general_goal.data != "Others":
+                new_specific_goal = form.specific_goal.data
+                current_user.current_specific_goal = new_specific_goal
+                last_goal.specific_goal = new_specific_goal
+                db.session.commit()
+            else:
+                new_general_goal = form.general_goal.data
+                new_specific_goal = form.specific_goal.data
+                new_goal_count = former_goal_count + 1
+                new_goal_reward = form.reward.data
+                new_end_date = date.today() + relativedelta(months=+6)
 
-            current_user.current_general_goal = new_general_goal
-            current_user.current_specific_goal = new_specific_goal
-            last_goal.end_date = func.now()
-            new_goal = Goal(general_goal=new_general_goal, specific_goal=new_specific_goal, goal_reward=new_goal_reward,
-                            goal_count=new_goal_count, end_date=new_end_date, user_id=current_user.id)
-            db.session.add(new_goal)
-            db.session.commit()
+                current_user.current_general_goal = new_general_goal
+                current_user.current_specific_goal = new_specific_goal
+                last_goal.end_date = func.now()
+                new_goal = Goal(general_goal=new_general_goal, specific_goal=new_specific_goal, goal_reward=new_goal_reward,
+                                goal_count=new_goal_count, end_date=new_end_date, user_id=current_user.id)
+                db.session.add(new_goal)
+                db.session.commit()
 
         flash('Your account has been updated!', 'success')
         return redirect(url_for('users.account'))
