@@ -28,7 +28,7 @@
 
     {% for buddy_account in buddy_accounts|reverse %}
     {% for progress in buddy_account.record_progresses|reverse %}
-    {% if progress.buddy_goal == goal.general_goal %}
+    {% if progress.buddy_goal == goal.general_goal + ' - ' + goal.specific_goal %}
     <div class="card">
         <div class="card-body">
             <small>{{ progress.date.date() }}</small>

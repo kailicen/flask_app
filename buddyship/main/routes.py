@@ -47,7 +47,8 @@ def home():
                     user_buddy = Buddy.query.filter_by(
                         buddy_name=current_user.current_buddy, user_id=current_user.id, end_date=None).first()
                     progress = Progress(buddy_role=form.buddy_role.data, buddy_score=form.buddy_score.data,
-                                        buddy_comment=form.buddy_comment.data, buddy_goal=buddy_account.current_general_goal,
+                                        buddy_comment=form.buddy_comment.data, buddy_goal=buddy_account.current_general_goal
+                                        + ' - ' + buddy_account.current_specific_goal,
                                         user_id=current_user.id, buddy_id=user_buddy.id)
                     db.session.add(progress)
                     db.session.commit()
