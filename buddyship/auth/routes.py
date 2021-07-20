@@ -76,8 +76,8 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(
             form.password.data).decode('utf-8')
-        user = User(if_admin=False, first_name=form.first_name.data.lower().title(),
-                    email=form.email.data, password=hashed_password, active=True,
+        user = User(if_admin=False, first_name=form.first_name.data.strip().lower().title(),
+                    email=form.email.data.lower(), password=hashed_password, active=True,
                     confirmed_at=date.today())
         db.session.add(user)
         db.session.commit()
@@ -92,7 +92,7 @@ def login():
         return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = User.query.filter_by(email=form.email.data.lower()).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             if user.email == 'vppr-6247@toastmastersclubs.org':
@@ -128,7 +128,7 @@ def reset_request():
         return redirect(url_for('main.home'))
     form = RequestResetForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        user = User.query.filter_by(email=form.email.data.lower()).first()
         send_reset_email(user)
         flash('An email has been sent with instructions to reset your password.', 'info')
         return redirect(url_for('auth.login'))

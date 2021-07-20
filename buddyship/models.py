@@ -19,7 +19,8 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
 
     current_buddy = db.Column(db.String(150))
-    current_goal = db.Column(db.String(150))
+    current_general_goal = db.Column(db.String(150))
+    current_specific_goal = db.Column(db.String(150))
     current_reward = db.Column(db.String(150))
     confirmed_at = db.Column(db.Date, nullable=False)
 
@@ -41,7 +42,7 @@ class User(db.Model, UserMixin):
         return User.query.get(user_id)
 
     def __repr__(self):
-        return f"User('{self.first_name}', '{self.email}', '{self.current_buddy}', '{self.current_goal}', '{self.current_reward}')"
+        return f"User('{self.first_name}', '{self.email}', '{self.current_buddy}', '{self.current_general_goal}', '{self.current_reward}')"
 
 
 class Buddy(db.Model):
@@ -57,8 +58,8 @@ class Buddy(db.Model):
 
 class Goal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    goal_direction = db.Column(db.String(150))
-    goal_statement = db.Column(db.String(150))
+    general_goal = db.Column(db.String(150))
+    specific_goal = db.Column(db.String(150))
     goal_count = db.Column(db.Integer, default=1)
     goal_reward = db.Column(db.String(150))
     start_date = db.Column(db.DateTime, default=func.now())

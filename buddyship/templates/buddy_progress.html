@@ -1,35 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="content-section">
+<div class="content-section mb-4">
     {% for buddy in user.buddies|reverse %}
-    <legend class="border-bottom mb-4">{{ buddy.buddy_name }}'s Progress</legend>
-    <div class="table-responsive-sm">
-        <table class="table table-sm table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Score</th>
-                    <th scope="col">Comment</th>
-                    <th scope="col">Goal</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for progress in user.record_progresses|reverse %}
-                <tr>
-                    {% if progress.buddy_id == buddy.id %}
-                    <td>{{ progress.date.date() }}</td>
-                    <td>{{ progress.buddy_role }}</td>
-                    <td>{{ progress.buddy_score }}</td>
-                    <td class="cell-breakWord">{{ progress.buddy_comment }}</td>
-                    <td>{{ progress.buddy_goal }}</td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <legend class="border-bottom my-4">{{ buddy.buddy_name }}'s Progress</legend>
+    {% for progress in user.record_progresses|reverse %}
+    {% if progress.buddy_id == buddy.id %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <small>{{ progress.date.date() }}</small>
+            <h5 class="card-title row align-items-start">
+                <div class="col">{{ progress.buddy_role }}</div>
+                <div class="col text-right text-muted">{{ progress.buddy_score[0] }}/5</div>
+            </h5>
+            <p class="card-subtitle text-muted">Goal: {{ progress.buddy_goal }}</p>
+            <p class="card-text">{{ progress.buddy_comment }}</p>
+        </div>
     </div>
+    {% endif %}
+    {% endfor %}
     {% endfor %}
 </div>
-
 {% endblock content %}

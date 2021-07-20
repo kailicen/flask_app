@@ -2,9 +2,8 @@
 {% block content %}
 <div class="content-section">
   <div class="subtitle-section">
-    <p><b>Buddyship: </b>{{ user.first_name }} and {{ user.current_buddy }}<br />
-      <b>Your buddy's goal: </b>{{ buddy_account.current_goal }}
-    </p>
+    <b>Buddyship: </b>{{ user.first_name }} and {{ user.current_buddy }}<br />
+    <b>Your buddy's goal: </b>{{ buddy_account.current_general_goal }} - {{ buddy_account.current_specific_goal }}
   </div>
   <form method="POST" action="" enctype="multipart/form-data">
     {{ form.hidden_tag() }}

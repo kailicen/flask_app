@@ -19,12 +19,12 @@ def home():
             user_id=current_user.id, end_date=None).first()
         if set_buddy:
             if set_buddy.buddy_name != current_user.current_buddy:
-                set_buddy.buddy_name = current_user.current_buddy.lower().title()
+                set_buddy.buddy_name = current_user.current_buddy.strip().lower().title()
                 db.session.commit()
             else:
                 pass
         else:
-            add_buddy = Buddy(buddy_name=current_user.current_buddy.lower().title(),
+            add_buddy = Buddy(buddy_name=current_user.current_buddy.strip().lower().title(),
                               user_id=current_user.id)
             db.session.add(add_buddy)
             db.session.commit()
@@ -36,7 +36,7 @@ def home():
             return redirect(url_for('main.stop'))
         else:
             form = HomeForm()
-            if buddy_account.current_goal == None:
+            if buddy_account.current_general_goal == None:
                 flash('Your buddy hasn\'t set their goal yet', 'danger')
                 return redirect(url_for('main.stop'))
             elif buddy_account.current_buddy != current_user.first_name:
@@ -47,8 +47,7 @@ def home():
                     user_buddy = Buddy.query.filter_by(
                         buddy_name=current_user.current_buddy, user_id=current_user.id, end_date=None).first()
                     progress = Progress(buddy_role=form.buddy_role.data, buddy_score=form.buddy_score.data,
-                                        buddy_comment=form.buddy_comment.data, buddy_goal=buddy_account.current_goal.split(
-                                            ' - ')[0],
+                                        buddy_comment=form.buddy_comment.data, buddy_goal=buddy_account.current_general_goal,
                                         user_id=current_user.id, buddy_id=user_buddy.id)
                     db.session.add(progress)
                     db.session.commit()
@@ -71,7 +70,7 @@ def tm_fam():
         return redirect(url_for('users.set_up'))
     else:
         all_users = User.query.with_entities(
-            User.first_name, User.current_goal, User.current_buddy).all()
+            User.first_name, User.current_general_goal, User.current_buddy).all()
         buddyships_double = []
         goals_double = []
         for user1 in all_users:
@@ -81,7 +80,7 @@ def tm_fam():
                         buddyships_double.append(
                             user1.first_name + " & " + user2.first_name)
                         goals_double.append(
-                            user1.current_goal + " & " + user2.current_goal)
+                            user1.current_general_goal + " & " + user2.current_general_goal)
         buddy_check = []
         buddyships = []
         for buddyship in buddyships_double:

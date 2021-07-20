@@ -2,69 +2,62 @@
 {% block content %}
 <div class="content-section">
     <div class="subtitle-section">
-        {% for goal in user.goals %}
-        {% if goal.goal_statement == user.current_goal %}
-        <p>You have <b>{{ (goal.end_date.date() - current_time).days }}</b></span> days left
-            to achieve your goal
-            <b>{{ user.current_goal }}
-                . </b> <label data-toggle="tooltip" data-placement="top"
-                title="We encourage you to use 6 months to complete one goal. You can always change your goal on 'Account' tab. ">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="red" class="bi bi-question-circle"
-                    viewBox="0 0 17 17">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                    <path
-                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
-                </svg>
-            </label>
-        </p>
-        {% endif %}
-        {% endfor %}
-
+        You have <b>{{ (user.goals[-1].end_date.date() - current_time).days }}</b></span> days left
+        to achieve your goal
+        <b>{{ user.current_specific_goal }}. </b> <label data-toggle="tooltip" data-placement="top"
+            title="We encourage you to use 6 months to complete one goal. You can always change your goal on 'Account' tab. ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="red" class="bi bi-question-circle"
+                viewBox="0 0 17 17">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                <path
+                    d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+            </svg>
+        </label>
+        <br />Reward: {{ user.current_reward }}
     </div>
 
     <legend class="border-bottom mb-4">My progress</legend>
     {% for goal in user.goals|reverse %}
-    <p>Goal #{{goal.goal_count }}: {{ goal.goal_statement }}<br />Reward: {{ goal.goal_reward }}</p>
-    <div class="table-responsive-sm">
-        <table class="table table-sm table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Score</th>
-                    <th scope="col">Comment</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for buddy_account in buddy_accounts|reverse %}
-                {% for progress in buddy_account.record_progresses|reverse %}
-                {% if progress.buddy_goal == goal.goal_direction %}
-                <tr>
-                    <td>{{ progress.date.date() }}</td>
-                    <td>{{ progress.buddy_role }}</td>
-                    <td>{{ progress.buddy_score }}</td>
-                    <td class="cell-breakWord">{{ progress.buddy_comment }}</td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="card bg-red text-white mt-3">
+        <div class="card-header">
+            <small>{{ goal.general_goal }}</small>
+            <h5>
+                Goal #{{ goal.goal_count }}: {{ goal.specific_goal }}</h5>
+        </div>
     </div>
 
+    {% for buddy_account in buddy_accounts|reverse %}
+    {% for progress in buddy_account.record_progresses|reverse %}
+    {% if progress.buddy_goal == goal.general_goal %}
+    <div class="card">
+        <div class="card-body">
+            <small>{{ progress.date.date() }}</small>
+            <h5 class="row align-items-start">
+                <div class="col">{{ progress.buddy_role }}</div>
+                <div class="col text-right text-muted">{{ progress.buddy_score[0] }}/5</div>
+            </h5>
+            <p class="card-text">{{ progress.buddy_comment }}</p>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
     {% endfor %}
 </div>
-
-<div class="content-section">
-    <br>
-    <legend class="border-bottom mb-4">My buddies</legend>
-    {% for buddy in user.buddies|reverse %}
-    <p>Buddy #{{ buddy.buddy_count }}: {{ buddy.buddy_name }} ({{ buddy.start_date.date() }} -
-        {% if buddy.end_date == None %} Present)
-        {% else %} {{ buddy.end_date.date() }})
-        {% endif %}
-        {% endfor %}</p>
-
-
+<br>
+<legend class="border-bottom mb-4">My buddies</legend>
+{% for buddy in user.buddies|reverse %}
+<div class="card">
+    <div class="card-body">
+        <small>{{ buddy.start_date.date() }} -
+            {% if buddy.end_date == None %} Present
+            {% else %} {{ buddy.end_date.date() }}
+            {% endif %}</small>
+        <p class="card-text">Buddy #{{ buddy.buddy_count }}: {{ buddy.buddy_name }}</p>
+    </div>
 </div>
+{% endfor %}
+<br>
+</div>
+
 {% endblock content %}

@@ -6,15 +6,18 @@ body {
 
 h1,
 h2,
-h3,
 h4,
-h5,
+h5
 h6 {
   color: #444444;
 }
 
 .bg-steel {
   background-color: #004165;
+}
+
+.bg-red {
+  background-color: #772432;
 }
 
 .site-header .navbar-nav .nav-link {
@@ -31,7 +34,7 @@ h6 {
 
 .subtitle-section {
   background: #faf0b9;
-  padding: 10px 20px 1px 20px;
+  padding: 10px 20px 10px 20px;
   margin-bottom: 10px;
 }
 
