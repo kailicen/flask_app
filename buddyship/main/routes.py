@@ -71,7 +71,7 @@ def tm_fam():
         return redirect(url_for('users.set_up'))
     else:
         all_users = User.query.with_entities(
-            User.first_name, User.current_general_goal, User.current_buddy).all()
+            User.first_name, User.current_general_goal, User.current_specific_goal, User.current_buddy).all()
         buddyships_double = []
         goals_double = []
         for user1 in all_users:
@@ -81,7 +81,8 @@ def tm_fam():
                         buddyships_double.append(
                             user1.first_name + " & " + user2.first_name)
                         goals_double.append(
-                            user1.current_general_goal + " & " + user2.current_general_goal)
+                            user1.current_general_goal + " - " + user1.current_specific_goal + " & "
+                            + user2.current_general_goal + " - " + user2.current_specific_goal)
         buddy_check = []
         buddyships = []
         for buddyship in buddyships_double:

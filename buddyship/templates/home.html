@@ -1,14 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="content-section">
-  <div class="subtitle-section">
-    <b>Buddyship: </b>{{ user.first_name }} and {{ user.current_buddy }}<br />
-    <b>Your buddy's goal: </b>{{ buddy_account.current_general_goal }} - {{ buddy_account.current_specific_goal }}
+  <div class="subtitle-section"> {{ user.current_buddy }}'s goal: {{ buddy_account.current_general_goal }}
+    <br><small>- {{ buddy_account.current_specific_goal }}</small>
   </div>
   <form method="POST" action="" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     <fieldset class="form-group">
-      <legend class="border-bottom mb-4">Record your buddy's progress</legend>
+
       <div class="form-group">
         {{ form.buddy_role.label(class="form-control-label") }}
         {% if form.buddy_role.errors %}
