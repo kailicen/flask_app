@@ -1,7 +1,10 @@
 body {
   background: #fafafa;
   color: #333333;
-  margin-top: 5rem;
+}
+
+main {
+  margin-top: 10px;
 }
 
 h1,
