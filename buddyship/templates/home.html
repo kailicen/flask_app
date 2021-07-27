@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="content-section">
-  <div class="subtitle-section"> {{ user.current_buddy }}'s goal: {{ buddy_account.current_general_goal }}
+  <div class="subtitle-section"><i class="fa fa-trophy" aria-hidden="true"></i> {{ user.current_buddy }}'s goal: {{
+    buddy_account.current_general_goal }}
     <br><small>- {{ buddy_account.current_specific_goal }}</small>
   </div>
   <form method="POST" action="" enctype="multipart/form-data">
