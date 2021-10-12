@@ -70,8 +70,8 @@ def tm_fam():
         flash('Please set up your buddy and your goal first. ', 'danger')
         return redirect(url_for('users.set_up'))
     else:
-        all_users = User.query.with_entities(
-            User.first_name, User.current_general_goal, User.current_specific_goal, User.current_buddy).all()
+        all_users = User.query.filter_by(active=True).all()
+
         buddyships_double = []
         goals_double = []
         for user1 in all_users:
