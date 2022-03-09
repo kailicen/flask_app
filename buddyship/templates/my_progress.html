@@ -36,7 +36,7 @@
                 <div class="col">{{ progress.buddy_role }}</div>
                 <div class="col text-right text-muted">{{ progress.buddy_score[0] }}/5</div>
             </h5>
-            <p class="card-text">{{ progress.buddy_comment }}</p>
+            <p class="card-text">{{ progress.buddy_comment | newline_to_br }}</p>
         </div>
     </div>
     {% endif %}

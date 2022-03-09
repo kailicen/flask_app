@@ -1,23 +1,22 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "layout.html" %} {% block content %}
 <div class="content-section mb-4">
-    {% for buddy in user.buddies|reverse %}
-    <legend class="border-bottom mb-4">{{ buddy.buddy_name }}'s Progress</legend>
-    {% for progress in user.record_progresses|reverse %}
-    {% if progress.buddy_id == buddy.id %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <small>{{ progress.date.date() }}</small>
-            <h5 class="card-title row align-items-start">
-                <div class="col">{{ progress.buddy_role }}</div>
-                <div class="col text-right text-muted">{{ progress.buddy_score[0] }}/5</div>
-            </h5>
-            <p class="card-subtitle text-muted">Goal: {{ progress.buddy_goal }}</p>
-            <p class="card-text">{{ progress.buddy_comment }}</p>
+  {% for buddy in user.buddies|reverse %}
+  <legend class="border-bottom mb-4">{{ buddy.buddy_name }}'s Progress</legend>
+  {% for progress in user.record_progresses|reverse %} {% if progress.buddy_id
+  == buddy.id %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <small>{{ progress.date.date() }}</small>
+      <h5 class="card-title row align-items-start">
+        <div class="col">{{ progress.buddy_role }}</div>
+        <div class="col text-right text-muted">
+          {{ progress.buddy_score[0] }}/5
         </div>
+      </h5>
+      <p class="card-subtitle text-muted">Goal: {{ progress.buddy_goal }}</p>
+      <p class="card-text">{{ progress.buddy_comment | newline_to_br }}</p>
     </div>
-    {% endif %}
-    {% endfor %}
-    {% endfor %}
+  </div>
+  {% endif %} {% endfor %} {% endfor %}
 </div>
 {% endblock content %}

@@ -7,6 +7,7 @@ from buddyship.config import Config
 from flask_admin import Admin
 from os import path
 from datetime import date
+from . import custom_template_filters
 
 
 db = SQLAlchemy()
@@ -38,10 +39,16 @@ def create_app(config_class=Config):
     app.register_blueprint(main)
     app.register_blueprint(progresses)
     app.register_blueprint(errors)
+    register_template_filters(flask_app=app)
 
     create_database(app)
 
     return app
+
+
+def register_template_filters(flask_app: Flask):
+    flask_app.register_blueprint(custom_template_filters.blueprint)
+    return None
 
 
 def create_database(app):
